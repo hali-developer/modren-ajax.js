@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJAX Library Demo</title>
+<script src="./ajax.js"></script> <!-- Include your AJAX library -->
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  h2 { margin-top: 40px; }
+  .section { margin-bottom: 30px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+  label { display: block; margin-top: 10px; }
+  button { margin-top: 10px; padding: 5px 10px; }
+  #output { margin-top: 10px; white-space: pre-wrap; background:#f7f7f7; padding:10px; border-radius:5px; max-height:200px; overflow:auto; }
+</style>
+</head>
+<body>
+
+<h1>Advanced AJAX Library Demo</h1>
+
+<div class="section">
+  <h2>GET Request (Caching + Deduplication)</h2>
+  <button id="btnGet">Fetch Users</button>
+  <div id="outputGet"></div>
+</div>
+
+<div class="section">
+  <h2>POST Request (JSON)</h2>
+  <button id="btnPost">Create User</button>
+  <div id="outputPost"></div>
+</div>
+
+<div class="section">
+  <h2>Form + File Upload (Progress + Retry)</h2>
+  <form id="uploadForm">
+    <label>Title: <input type="text" name="title" value="Demo"></label>
+    <label>Image: <input type="file" name="image"></label>
+    <button type="submit">Upload</button>
+  </form>
+  <div id="outputUpload"></div>
+</div>
+
+<div class="section">
+  <h2>Timeout Example</h2>
+  <button id="btnTimeout">Fetch Slow Endpoint</button>
+  <div id="outputTimeout"></div>
+</div>
+
+<script>
+  const output = (id, msg) => {
+    document.getElementById(id).textContent = JSON.stringify(msg, null, 2);
+  }
+
+  // GET Request with caching and deduplication
+  document.getElementById("btnGet").addEventListener("click", function(){
+    ajax({ url: "https://jsonplaceholder.typicode.com/users" })
+      .success(res => output("outputGet", res))
+      .error(err => output("outputGet", err))
+      .final(() => console.log("GET request finished"));
+  });
+
+  // POST Request with JSON
+  document.getElementById("btnPost").addEventListener("click", function(){
+    ajax({
+      url: "https://jsonplaceholder.typicode.com/posts",
+      method: "POST",
+      data: { title: "foo", body: "bar", userId: 1 }
+    })
+    .success(res => output("outputPost", res))
+    .error(err => output("outputPost", err))
+    .final(() => console.log("POST request finished"));
+  });
+
+  // Form + File Upload
+  document.getElementById("uploadForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    ajax({
+      url: "https://jsonplaceholder.typicode.com/posts",
+      method: "POST",
+      form: this,
+      retries: 2,
+      retryDelay: 1000
+    })
+    .progress(e => console.log(`Uploaded: ${Math.round(e.loaded / e.total * 100)}%`))
+    .success(res => output("outputUpload", res))
+    .error(err => output("outputUpload", err))
+    .final(() => console.log("Upload finished"));
+  });
+
+  // Timeout Example
+  document.getElementById("btnTimeout").addEventListener("click", function(){
+    ajax({
+      url: "https://httpstat.us/200?sleep=7000", // slow endpoint, 7s
+      timeout: 5000 // 5s timeout
+    })
+    .success(res => output("outputTimeout", res))
+    .error(err => output("outputTimeout", err))
+    .final(() => console.log("Timeout request finished"));
+  });
+</script>
+
+</body>
+</html>

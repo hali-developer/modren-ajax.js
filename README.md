@@ -1,4 +1,4 @@
-# Advanced Vanilla JS AJAX Library
+# Modren AJAX Library in Vanilla JS AJAX
 
 A **production-ready, feature-rich AJAX library** in Vanilla JavaScript with loader, form handling, file uploads, interceptors, retries, caching, deduplication, progress tracking, and advanced error standardization.
 

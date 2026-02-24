@@ -175,27 +175,30 @@ ajax({ url: "/api/users", loader: false });
 
 ## 🔧 Options
 
-Option	Type	Description
-url	string	Endpoint URL (route or full URL)
-method	string	HTTP method (GET, POST, PUT, DELETE, etc.)
-data	object/FormData	JSON object or FormData to send
-form	HTMLFormElement	Form element to auto-convert to FormData
-headers	object	Custom headers for this request
-loader	boolean	Show/hide loader (default true)
-timeout	number	Request timeout in ms (default 15000)
-retries	number	Number of retry attempts on failure
-retryDelay	number	Delay between retries in ms
-cache	boolean	Enable/disable caching for GET requests
+| Option       | Type            | Description                                |
+| ------------ | --------------- | ------------------------------------------ |
+| `url`        | string          | Endpoint URL (route or full URL)           |
+| `method`     | string          | HTTP method (GET, POST, PUT, DELETE, etc.) |
+| `data`       | object/FormData | JSON object or FormData to send            |
+| `form`       | HTMLFormElement | Form element to auto-convert to FormData   |
+| `headers`    | object          | Custom headers for this request            |
+| `loader`     | boolean         | Show/hide loader (default true)            |
+| `timeout`    | number          | Request timeout in ms (default 15000)      |
+| `retries`    | number          | Number of retry attempts on failure        |
+| `retryDelay` | number          | Delay between retries in ms                |
+| `cache`      | boolean         | Enable/disable caching for GET requests    |
+
 
 ---
 
 ## 🔗 Methods on Promise
 
-Method	Description
-.success(fn)	Called on request success
-.error(fn)	Called on request failure
-.final(fn)	Always called after request completes
-.progress(fn)	For FormData/file uploads, provides progress events
+| Method          | Description                                         |
+| --------------- | --------------------------------------------------- |
+| `.success(fn)`  | Called on request success                           |
+| `.error(fn)`    | Called on request failure                           |
+| `.final(fn)`    | Always called after request completes               |
+| `.progress(fn)` | For FormData/file uploads, provides progress events |
 
 ---
 
@@ -248,7 +251,7 @@ ajax.defaultHeaders = {
 
 ---
 
-# Summary
+## Summary
 
 This library provides a complete AJAX solution for modern Vanilla JS projects, including:
 
